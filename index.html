@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,16 +7,26 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI}
-body{background:#0b0014;color:#fff;overflow:hidden}
+body{background:#0b0014;color:white;overflow:hidden}
 
 /* COMMON */
 .page{
   position:absolute; inset:0;
   display:flex; flex-direction:column;
   justify-content:center; align-items:center;
-  text-align:center; transition:1s;
+  text-align:center;
+  transition:1s;
 }
 .hidden{opacity:0;pointer-events:none}
+
+/* BUTTON */
+button{
+  margin:10px;
+  padding:10px 22px;
+  border:none;border-radius:20px;
+  background:#ff4d8d;
+  color:white;font-size:14px;
+}
 
 /* HEARTS */
 .heart{
@@ -56,10 +66,7 @@ body{background:#0b0014;color:#fff;overflow:hidden}
 
 /* PAGE 2 */
 #page2{background:linear-gradient(135deg,#12001f,#ff3d81)}
-.big-heart{
-  font-size:100px;
-  animation:pulse 1.2s infinite;
-}
+.big-heart{font-size:100px;animation:pulse 1.2s infinite}
 .glow{font-size:2em;text-shadow:0 0 20px pink}
 
 /* PAGE 3 */
@@ -71,10 +78,10 @@ body{background:#0b0014;color:#fff;overflow:hidden}
 .slider img{
   width:100%;height:100%;
   object-fit:cover;
-  animation:photoAnim 2.5s;
+  animation:photoAnim 1.5s;
 }
 @keyframes photoAnim{
-  from{opacity:0;transform:translateX(80px) rotate(10deg)}
+  from{opacity:0;transform:translateX(60px) rotate(10deg)}
   to{opacity:1;transform:none}
 }
 
@@ -113,6 +120,7 @@ body{background:#0b0014;color:#fff;overflow:hidden}
 <div class="page hidden" id="page2">
   <div class="big-heart">💖</div>
   <div class="glow">Happy New Year Suruthi ✨</div>
+  <button onclick="go(3)">Next ➜</button>
 </div>
 
 <!-- PAGE 3 -->
@@ -121,26 +129,39 @@ body{background:#0b0014;color:#fff;overflow:hidden}
     <img id="photo" src="photo1.jpg">
   </div>
   <p id="note">First meet ❤️</p>
+
+  <div>
+    <button onclick="prevPhoto()">◀ Prev</button>
+    <button onclick="nextPhoto()">Next ▶</button>
+  </div>
+
+  <button id="photoDone" onclick="go(4)" style="display:none">
+    Next Page ➜
+  </button>
 </div>
 
 <!-- PAGE 4 -->
 <div class="page hidden" id="page4">
   <div class="diary" onclick="openDiary()"></div>
+
   <div class="diaryContent" id="diaryText">
     <p>
       Dear Suruthi 💖<br><br>
-      Indha varusham namma rendu per
-      strong-aa lovers-aa irukka porom.
-      Understanding, support, memories ellam.
+      Indha puthu varusham namma rendu per
+      romba understanding-oda,
+      support-oda, love-oda irukka porom.
       <br><br>
-      Resolutions:<br>
+      New Year Resolutions:<br>
       • More love ❤️<br>
       • More time ✨<br>
       • Forever us 💍
     </p>
+
     <audio id="dedicateSong" controls>
       <source src="dedicate.mp3">
     </audio>
+
+    <button onclick="go(5)">Next ➜</button>
   </div>
 </div>
 
@@ -156,7 +177,7 @@ body{background:#0b0014;color:#fff;overflow:hidden}
 <div id="black"></div>
 
 <script>
-/* Hearts */
+/* HEARTS */
 for(let i=0;i<25;i++){
  let h=document.createElement("div");
  h.className="heart";h.innerHTML="💖";
@@ -165,7 +186,7 @@ for(let i=0;i<25;i++){
  document.body.appendChild(h);
 }
 
-/* Fireworks */
+/* FIREWORKS */
 setInterval(()=>{
  let f=document.createElement("div");
  f.className="firework";
@@ -175,31 +196,52 @@ setInterval(()=>{
  setTimeout(()=>f.remove(),1500);
 },900);
 
-/* Start */
+/* START */
 function startAll(){
- document.getElementById("bgMusic").volume=0.3;
- document.getElementById("bgMusic").play();
+ let bg=document.getElementById("bgMusic");
+ bg.volume=0.3;
+ bg.play().catch(()=>{});
  go(2);
- setTimeout(()=>go(3),4000);
 }
 
-/* Photos */
+/* PAGE SWITCH */
+function go(n){
+ document.querySelectorAll(".page").forEach(p=>p.classList.add("hidden"));
+ document.getElementById("page"+n).classList.remove("hidden");
+
+ if(n==5){
+  type("l1","I love you dii pondatti ❤️",80);
+  setTimeout(()=>type("l2","Umma 😘😘😘😘😘😘😘",80),2000);
+  setTimeout(()=>type("l3","Be happy always. I will always be there for you 💖",60),4000);
+  setTimeout(()=>document.getElementById("black").style.opacity=1,9000);
+ }
+}
+
+/* PHOTO CONTROL */
 let pics=["photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg","photo5.jpg"];
 let notes=["First meet ❤️","Smile ✨","Coffee ☕","Memories 💫","Forever 💖"];
 let i=0;
-setInterval(()=>{
+
+function showPhoto(){
  let img=document.getElementById("photo");
  let n=document.getElementById("note");
- if(!img) return;
- i=(i+1)%pics.length;
- img.src=pics[i]; n.innerText=notes[i];
- if(i==pics.length-1) setTimeout(()=>go(4),3000);
-},3000);
+ img.style.animation="none";img.offsetHeight;
+ img.style.animation="photoAnim 1.5s";
+ img.src=pics[i];
+ n.innerText=notes[i];
 
-/* Diary */
+ document.getElementById("photoDone").style.display =
+   (i===pics.length-1)?"block":"none";
+}
+function nextPhoto(){ if(i<pics.length-1){i++;showPhoto();} }
+function prevPhoto(){ if(i>0){i--;showPhoto();} }
+
+/* DIARY */
 function openDiary(){
  document.getElementById("diaryText").style.display="block";
 }
+
+/* SONG LOGIC */
 let bg=document.getElementById("bgMusic");
 let d=document.getElementById("dedicateSong");
 if(d){
@@ -208,22 +250,12 @@ if(d){
  d.onended=()=>bg.play();
 }
 
-/* Final page text */
-function go(n){
- document.querySelectorAll(".page").forEach(p=>p.classList.add("hidden"));
- document.getElementById("page"+n).classList.remove("hidden");
- if(n==5){
-   type("l1","I love you dii pondatti ❤️",80);
-   setTimeout(()=>type("l2","Umma 😘😘😘😘😘😘😘",80),2000);
-   setTimeout(()=>type("l3","Be happy always. I will always be there for you 💖",60),4000);
-   setTimeout(()=>document.getElementById("black").style.opacity=1,9000);
- }
-}
+/* TYPE EFFECT */
 function type(id,text,spd){
- let el=document.getElementById(id),i=0;
+ let el=document.getElementById(id),k=0;
  let t=setInterval(()=>{
-  el.innerHTML+=text[i++];
-  if(i>=text.length)clearInterval(t);
+  el.innerHTML+=text[k++];
+  if(k>=text.length)clearInterval(t);
  },spd);
 }
 </script>
