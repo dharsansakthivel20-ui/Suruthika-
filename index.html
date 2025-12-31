@@ -70,6 +70,19 @@ button{
 .glow{font-size:2em;text-shadow:0 0 20px pink}
 
 /* PAGE 3 */
+#recapText{
+  font-size:2em;
+  color:#ffd6e8;
+  text-shadow:0 0 25px #ff5fa2;
+  animation:recapGlow 1.5s infinite alternate;
+  cursor:pointer;
+  margin-bottom:20px;
+}
+@keyframes recapGlow{
+  from{transform:scale(1);opacity:1}
+  to{transform:scale(1.1);opacity:0.8}
+}
+
 .slider{
   width:230px;height:230px;
   overflow:hidden;border-radius:20px;
@@ -125,9 +138,15 @@ button{
 
 <!-- PAGE 3 -->
 <div class="page hidden" id="page3">
+
+  <div id="recapText" onclick="startRecap()">
+    ✨ Recap of 2025 ✨
+  </div>
+
   <div class="slider">
     <img id="photo" src="photo1.jpg">
   </div>
+
   <p id="note">First meet ❤️</p>
 
   <div>
@@ -217,22 +236,39 @@ function go(n){
  }
 }
 
-/* PHOTO CONTROL */
+/* PHOTO CONTROL + RECAP */
+let recapDone=false;
 let pics=["photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg","photo5.jpg"];
 let notes=["First meet ❤️","Smile ✨","Coffee ☕","Memories 💫","Forever 💖"];
 let i=0;
 
+function startRecap(){
+ let r=document.getElementById("recapText");
+ r.style.opacity=0;
+ r.style.pointerEvents="none";
+ setTimeout(()=>{
+  r.style.display="none";
+  recapDone=true;
+  showPhoto();
+ },1000);
+}
+
 function showPhoto(){
+ if(!recapDone) return;
+
  let img=document.getElementById("photo");
  let n=document.getElementById("note");
+
  img.style.animation="none";img.offsetHeight;
  img.style.animation="photoAnim 1.5s";
+
  img.src=pics[i];
  n.innerText=notes[i];
 
  document.getElementById("photoDone").style.display =
    (i===pics.length-1)?"block":"none";
 }
+
 function nextPhoto(){ if(i<pics.length-1){i++;showPhoto();} }
 function prevPhoto(){ if(i>0){i--;showPhoto();} }
 
