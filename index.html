@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy New Year Suruthi ❤️</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Segoe UI',sans-serif;
+}
+body{
+  background:#0b0014;
+  color:white;
+  overflow:hidden;
+}
+
+/* COMMON */
+.page{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  transition:1s;
+}
+.hidden{
+  opacity:0;
+  pointer-events:none;
+  transform:scale(1.05);
+}
+
+/* HEART BACKGROUND */
+.heart{
+  position:absolute;
+  bottom:-30px;
+  animation:float 7s linear infinite;
+}
+@keyframes float{
+  from{transform:translateY(0) scale(.6);opacity:1}
+  to{transform:translateY(-120vh) scale(1.5);opacity:0}
+}
+
+/* FIREWORKS */
+.firework{
+  position:absolute;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:#ff77aa;
+  animation:boom 1.5s linear infinite;
+}
+@keyframes boom{
+  from{transform:scale(0);opacity:1}
+  to{transform:scale(6);opacity:0}
+}
+
+/* PAGE 1 */
+#page1{
+  background:radial-gradient(circle,#ff4d8d,#18001f);
+}
+.circle{
+  width:150px;
+  height:150px;
+  border-radius:50%;
+  border:3px solid rgba(255,255,255,.4);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  position:relative;
+  box-shadow:0 0 30px #ff5fa2;
+}
+.circle span{
+  font-size:36px;
+  animation:pulse 1s infinite;
+}
+@keyframes pulse{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.2)}
+  100%{transform:scale(1)}
+}
+.progress{
+  position:absolute;
+  inset:0;
+  border-radius:50%;
+  border:4px solid white;
+  clip-path:circle(0% at 50% 50%);
+}
+
+/* PAGE 2 */
+#page2{
+  background:linear-gradient(135deg,#12001f,#ff3d81);
+}
+.glow{
+  font-size:2em;
+  text-shadow:0 0 25px #ffb3d9;
+  animation:glow 2s infinite alternate;
+}
+@keyframes glow{
+  from{text-shadow:0 0 10px #ffb3d9}
+  to{text-shadow:0 0 35px #ff5fa2}
+}
+.type{
+  margin-top:18px;
+  font-size:1.05em;
+  border-right:2px solid #fff;
+  white-space:nowrap;
+  overflow:hidden;
+}
+
+/* PAGE 3 – PHOTO SLIDER */
+.slider{
+  width:230px;
+  height:230px;
+  position:relative;
+  overflow:hidden;
+  border-radius:18px;
+  box-shadow:0 0 30px #ff5fa2;
+}
+.slide{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:0;
+  transform:translateX(120%) rotate(12deg);
+  transition:1s ease;
+}
+.slide.active{
+  opacity:1;
+  transform:translateX(0) rotate(0deg);
+  z-index:2;
+}
+.slide.exit-left{
+  transform:translateX(-140%) rotate(-15deg);
+  opacity:0;
+}
+.slide.exit-right{
+  transform:translateX(140%) rotate(15deg);
+  opacity:0;
+}
+
+.slide-note{
+  margin-top:16px;
+  font-size:14px;
+  color:#ffd6e8;
+  min-height:40px;
+}
+
+/* PAGE 4 */
+#page4{background:#140018}
+.diary{
+  width:190px;
+  height:140px;
+  background:#ff4d8d;
+  border-radius:6px;
+  box-shadow:0 0 25px #ff5fa2;
+  cursor:pointer;
+  transition:1s;
+}
+.diary.open{transform:rotateY(-160deg)}
+.diaryContent{
+  margin-top:25px;
+  max-width:90%;
+  font-size:14px;
+  display:none;
+}
+.diary.open + .diaryContent{display:block}
+
+/* PAGE 5 */
+#page5{
+  background:radial-gradient(circle,#ff4d8d,#18001f);
+}
+
+button{
+  margin-top:20px;
+  padding:10px 22px;
+  border:none;
+  border-radius:20px;
+  background:#ff4d8d;
+  color:white;
+  font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- BACKGROUND MUSIC -->
+<audio id="bgMusic" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- PAGE 1 -->
+<div class="page" id="page1" onclick="startMusic()">
+  <div class="circle">
+    <span id="count">5</span>
+    <div class="progress" id="prog"></div>
+  </div>
+  <p style="margin-top:15px">Get ready Suruthi ❤️</p>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page hidden" id="page2">
+  <div class="glow">Happy New Year Suruthi 💖</div>
+  <div class="type" id="typeText"></div>
+  <button onclick="nextPage(3)">Next ➜</button>
+</div>
+
+<!-- PAGE 3 -->
+<div class="page hidden" id="page3">
+
+  <div class="slider">
+    <img src="photo1.jpg" class="slide active">
+    <img src="photo2.jpg" class="slide">
+    <img src="photo3.jpg" class="slide">
+    <img src="photo4.jpg" class="slide">
+    <img src="photo5.jpg" class="slide">
+  </div>
+
+  <div class="slide-note" id="slideNote">
+    12 Feb ❤️<br>First meet
+  </div>
+
+  <button onclick="nextPage(4)">Next ➜</button>
+</div>
+
+<!-- PAGE 4 -->
+<div class="page hidden" id="page4">
+  <div class="diary" onclick="openDiary()"></div>
+  <div class="diaryContent">
+    <p>
+      Dear Suruthi 💖<br><br>
+      Indha varusham namma rendu per life-la romba special…<br>
+      Laughs, memories, fights ellame priceless 🫶<br><br>
+      This year resolutions:<br>
+      More love ❤️<br>
+      More time ✨<br>
+      Forever us 💍
+    </p>
+    <p style="margin-top:15px">
+      This song is dedicated to you, my Wifey 🎶💖
+    </p>
+    <button onclick="closeDiary()">Close Diary</button>
+  </div>
+</div>
+
+<!-- PAGE 5 -->
+<div class="page hidden" id="page5">
+  <h2 class="glow">Once again…</h2>
+  <h1>Happy New Year Wifey 💖🎆</h1>
+</div>
+
+<script>
+/* MUSIC */
+function startMusic(){
+  document.getElementById("bgMusic").play();
+}
+
+/* HEARTS */
+for(let i=0;i<25;i++){
+  let h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="💖";
+  h.style.left=Math.random()*100+"vw";
+  h.style.fontSize=(14+Math.random()*18)+"px";
+  h.style.animationDuration=(4+Math.random()*6)+"s";
+  document.body.appendChild(h);
+}
+
+/* FIREWORKS */
+setInterval(()=>{
+  let f=document.createElement("div");
+  f.className="firework";
+  f.style.left=Math.random()*100+"vw";
+  f.style.top=Math.random()*60+"vh";
+  document.body.appendChild(f);
+  setTimeout(()=>f.remove(),1500);
+},700);
+
+/* COUNTDOWN */
+let time=5,percent=0;
+let count=document.getElementById("count");
+let prog=document.getElementById("prog");
+let timer=setInterval(()=>{
+  time--;
+  percent+=20;
+  count.innerText=time>0?time:"❤️";
+  prog.style.clipPath=`circle(${percent}% at 50% 50%)`;
+  if(time<=0){
+    clearInterval(timer);
+    setTimeout(()=>nextPage(2),600);
+  }
+},1000);
+
+/* TYPE EFFECT */
+let msg="This year begins with you… and ends with us 💕";
+let ti=0;
+function typeEffect(){
+  if(ti<msg.length){
+    document.getElementById("typeText").innerText+=msg.charAt(ti);
+    ti++;
+    setTimeout(typeEffect,70);
+  }
+}
+setTimeout(typeEffect,1200);
+
+/* PHOTO SLIDER */
+let slides=document.querySelectorAll(".slide");
+let note=document.getElementById("slideNote");
+let notes=[
+  "12 Feb ❤️<br>First meet",
+  "That smile ✨",
+  "Coffee date ☕",
+  "Unexpected meet 💫",
+  "Best memory 💖"
+];
+let idx=0;
+let dir=true;
+
+setInterval(()=>{
+  let current=slides[idx];
+  current.classList.remove("active");
+  current.classList.add(dir?"exit-left":"exit-right");
+
+  idx=(idx+1)%slides.length;
+  let next=slides[idx];
+  next.className="slide active";
+
+  note.innerHTML=notes[idx];
+  dir=!dir;
+},2800);
+
+/* DIARY */
+function openDiary(){
+  document.querySelector(".diary").classList.add("open");
+}
+function closeDiary(){
+  document.querySelector(".diary").classList.remove("open");
+  setTimeout(()=>nextPage(5),2000);
+}
+
+/* PAGE SWITCH */
+function nextPage(n){
+  document.querySelectorAll(".page").forEach(p=>p.classList.add("hidden"));
+  document.getElementById("page"+n).classList.remove("hidden");
+}
+</script>
+
+</body>
+</html>
