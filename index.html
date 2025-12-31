@@ -1,30 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Happy New Year Suruthi ❤️</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
-body{background:#0b0014;color:white;overflow:hidden}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI}
+body{background:#0b0014;color:#fff;overflow:hidden}
 
 /* COMMON */
 .page{
   position:absolute; inset:0;
   display:flex; flex-direction:column;
   justify-content:center; align-items:center;
-  text-align:center;
-  transition:1s;
+  text-align:center; transition:1s;
 }
-.hidden{opacity:0;pointer-events:none;transform:scale(1.05)}
-button{
-  margin-top:20px;
-  padding:10px 22px;
-  border:none;border-radius:20px;
-  background:#ff4d8d;
-  color:white;font-size:14px;
-}
+.hidden{opacity:0;pointer-events:none}
 
 /* HEARTS */
 .heart{
@@ -32,16 +24,14 @@ button{
   animation:float 7s linear infinite;
 }
 @keyframes float{
-  from{transform:translateY(0) scale(.6);opacity:1}
-  to{transform:translateY(-120vh) scale(1.5);opacity:0}
+  from{transform:translateY(0);opacity:1}
+  to{transform:translateY(-120vh);opacity:0}
 }
 
-/* FIREWORKS */
+/* FIREWORK */
 .firework{
-  position:absolute;
-  width:6px;height:6px;
-  border-radius:50%;
-  background:#ff77aa;
+  position:absolute;width:6px;height:6px;
+  background:#ff77aa;border-radius:50%;
   animation:boom 1.5s linear infinite;
 }
 @keyframes boom{
@@ -52,221 +42,189 @@ button{
 /* PAGE 1 */
 #page1{background:radial-gradient(circle,#ff4d8d,#18001f)}
 .circle{
-  width:150px;height:150px;
-  border-radius:50%;
-  border:3px solid rgba(255,255,255,.4);
-  display:flex;justify-content:center;align-items:center;
+  width:150px;height:150px;border-radius:50%;
+  border:3px solid rgba(255,255,255,.5);
+  display:flex;align-items:center;justify-content:center;
   box-shadow:0 0 30px #ff5fa2;
+  animation:pulse 1.5s infinite;
 }
-.circle span{font-size:36px;animation:pulse 1s infinite}
 @keyframes pulse{
   0%{transform:scale(1)}
-  50%{transform:scale(1.2)}
+  50%{transform:scale(1.1)}
   100%{transform:scale(1)}
 }
 
 /* PAGE 2 */
 #page2{background:linear-gradient(135deg,#12001f,#ff3d81)}
-.glow{
-  font-size:2em;
-  text-shadow:0 0 25px #ffb3d9;
+.big-heart{
+  font-size:100px;
+  animation:pulse 1.2s infinite;
 }
-.type{
-  margin-top:15px;
-  font-size:1.05em;
-  border-right:2px solid #fff;
-  white-space:nowrap;
-  overflow:hidden;
-}
+.glow{font-size:2em;text-shadow:0 0 20px pink}
 
-/* PAGE 3 – PHOTO SLIDER */
+/* PAGE 3 */
 .slider{
   width:230px;height:230px;
-  position:relative;
-  overflow:hidden;
-  border-radius:18px;
-  box-shadow:0 0 30px #ff5fa2;
+  overflow:hidden;border-radius:20px;
+  box-shadow:0 0 30px pink;
 }
-.slide{
-  position:absolute; inset:0;
+.slider img{
   width:100%;height:100%;
   object-fit:cover;
-  opacity:0;
-  transform:translateX(120%) rotate(12deg);
-  transition:1s ease;
+  animation:photoAnim 2.5s;
 }
-.slide.active{
-  opacity:1;
-  transform:translateX(0) rotate(0deg);
-}
-.slide.exit-left{transform:translateX(-140%) rotate(-15deg);opacity:0}
-.slide.exit-right{transform:translateX(140%) rotate(15deg);opacity:0}
-.slide-note{
-  margin-top:16px;
-  font-size:14px;
-  color:#ffd6e8;
-  min-height:40px;
+@keyframes photoAnim{
+  from{opacity:0;transform:translateX(80px) rotate(10deg)}
+  to{opacity:1;transform:none}
 }
 
 /* PAGE 4 */
-#page4{background:#140018}
+.diary{
+  width:180px;height:140px;
+  background:#ff4d8d;border-radius:6px;
+  box-shadow:0 0 20px pink;
+  cursor:pointer;
+}
+.diaryContent{display:none;margin-top:20px;font-size:14px}
 
 /* PAGE 5 */
-#page5{background:radial-gradient(circle,#ff4d8d,#18001f)}
+#bigHeart{font-size:120px;animation:pulse 1.2s infinite}
+#black{
+  position:absolute;inset:0;
+  background:black;opacity:0;
+  transition:3s;pointer-events:none;
+}
 </style>
 </head>
 
 <body>
 
-<!-- BACKGROUND MUSIC (HIDDEN) -->
 <audio id="bgMusic" loop>
-  <source src="bgmusic.mp3" type="audio/mpeg">
+  <source src="bgmusic.mp3">
 </audio>
 
 <!-- PAGE 1 -->
-<div class="page" id="page1" onclick="startBgMusic()">
-  <div class="circle">
-    <span>❤️</span>
-  </div>
-  <p style="margin-top:15px">Tap anywhere 💖</p>
+<div class="page" id="page1" onclick="startAll()">
+  <div class="circle">❤️</div>
+  <p>Tap anywhere</p>
 </div>
 
 <!-- PAGE 2 -->
 <div class="page hidden" id="page2">
-  <div class="glow">Happy New Year Suruthi 💖</div>
-  <div class="type" id="typeText"></div>
-  <button onclick="nextPage(3)">Next ➜</button>
+  <div class="big-heart">💖</div>
+  <div class="glow">Happy New Year Suruthi ✨</div>
 </div>
 
 <!-- PAGE 3 -->
 <div class="page hidden" id="page3">
   <div class="slider">
-    <img src="photo1.jpg" class="slide active">
-    <img src="photo2.jpg" class="slide">
-    <img src="photo3.jpg" class="slide">
-    <img src="photo4.jpg" class="slide">
-    <img src="photo5.jpg" class="slide">
+    <img id="photo" src="photo1.jpg">
   </div>
-  <div class="slide-note" id="slideNote"></div>
-  <button onclick="nextPage(4)">Next ➜</button>
+  <p id="note">First meet ❤️</p>
 </div>
 
 <!-- PAGE 4 -->
 <div class="page hidden" id="page4">
-  <p style="margin-bottom:10px">This song is for you 💖</p>
-  <audio id="dedicateSong" controls>
-    <source src="dedicate.mp3" type="audio/mpeg">
-  </audio>
-  <button onclick="nextPage(5)">Next ➜</button>
+  <div class="diary" onclick="openDiary()"></div>
+  <div class="diaryContent" id="diaryText">
+    <p>
+      Dear Suruthi 💖<br><br>
+      Indha varusham namma rendu per
+      strong-aa lovers-aa irukka porom.
+      Understanding, support, memories ellam.
+      <br><br>
+      Resolutions:<br>
+      • More love ❤️<br>
+      • More time ✨<br>
+      • Forever us 💍
+    </p>
+    <audio id="dedicateSong" controls>
+      <source src="dedicate.mp3">
+    </audio>
+  </div>
 </div>
 
 <!-- PAGE 5 -->
 <div class="page hidden" id="page5">
-  <h2 class="glow" id="loveLine"></h2>
-  <h2 style="margin-top:15px" id="kissLine"></h2>
-  <p style="margin-top:20px;color:#ffd6e8" id="finalNote"></p>
+  <h2 id="l1"></h2>
+  <h2 id="l2"></h2>
+  <p id="l3"></p>
+  <div id="bigHeart">💗</div>
+  <h2>Once again Happy New Year Suruthi ✨</h2>
 </div>
 
+<div id="black"></div>
+
 <script>
-/* BACKGROUND MUSIC */
-let bgStarted=false;
-function startBgMusic(){
-  if(bgStarted) return;
-  bgStarted=true;
-  let bg=document.getElementById("bgMusic");
-  bg.volume=0.3;
-  bg.play().catch(()=>{});
-  nextPage(2);
-}
-
-/* HEARTS */
+/* Hearts */
 for(let i=0;i<25;i++){
-  let h=document.createElement("div");
-  h.className="heart";
-  h.innerHTML="💖";
-  h.style.left=Math.random()*100+"vw";
-  h.style.fontSize=(14+Math.random()*18)+"px";
-  h.style.animationDuration=(4+Math.random()*6)+"s";
-  document.body.appendChild(h);
+ let h=document.createElement("div");
+ h.className="heart";h.innerHTML="💖";
+ h.style.left=Math.random()*100+"vw";
+ h.style.animationDuration=(4+Math.random()*6)+"s";
+ document.body.appendChild(h);
 }
 
-/* FIREWORKS */
+/* Fireworks */
 setInterval(()=>{
-  let f=document.createElement("div");
-  f.className="firework";
-  f.style.left=Math.random()*100+"vw";
-  f.style.top=Math.random()*60+"vh";
-  document.body.appendChild(f);
-  setTimeout(()=>f.remove(),1500);
+ let f=document.createElement("div");
+ f.className="firework";
+ f.style.left=Math.random()*100+"vw";
+ f.style.top=Math.random()*60+"vh";
+ document.body.appendChild(f);
+ setTimeout(()=>f.remove(),1500);
 },900);
 
-/* PAGE SWITCH */
-function nextPage(n){
-  document.querySelectorAll(".page").forEach(p=>p.classList.add("hidden"));
-  document.getElementById("page"+n).classList.remove("hidden");
-  if(n===3) startSlider();
-  if(n===5) startFinalText();
+/* Start */
+function startAll(){
+ document.getElementById("bgMusic").volume=0.3;
+ document.getElementById("bgMusic").play();
+ go(2);
+ setTimeout(()=>go(3),4000);
 }
 
-/* TYPE EFFECT PAGE 2 */
-let msg="This year begins with you… and ends with us 💕";
-let ti=0;
-function typeEffect(){
-  if(ti<msg.length){
-    document.getElementById("typeText").innerHTML+=msg.charAt(ti);
-    ti++; setTimeout(typeEffect,70);
-  }
-}
-setTimeout(typeEffect,1200);
+/* Photos */
+let pics=["photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg","photo5.jpg"];
+let notes=["First meet ❤️","Smile ✨","Coffee ☕","Memories 💫","Forever 💖"];
+let i=0;
+setInterval(()=>{
+ let img=document.getElementById("photo");
+ let n=document.getElementById("note");
+ if(!img) return;
+ i=(i+1)%pics.length;
+ img.src=pics[i]; n.innerText=notes[i];
+ if(i==pics.length-1) setTimeout(()=>go(4),3000);
+},3000);
 
-/* PHOTO SLIDER */
-let slides=document.querySelectorAll(".slide");
-let note=document.getElementById("slideNote");
-let notes=[
-  "12 Feb ❤️ First meet",
-  "That smile ✨",
-  "Coffee date ☕",
-  "Unexpected meet 💫",
-  "Best memory 💖"
-];
-let idx=0,dir=true,sliderStarted=false;
-function startSlider(){
-  if(sliderStarted) return;
-  sliderStarted=true;
-  setInterval(()=>{
-    let cur=slides[idx];
-    cur.classList.remove("active");
-    cur.classList.add(dir?"exit-left":"exit-right");
-    idx=(idx+1)%slides.length;
-    slides[idx].className="slide active";
-    note.innerHTML=notes[idx];
-    dir=!dir;
-  },2800);
+/* Diary */
+function openDiary(){
+ document.getElementById("diaryText").style.display="block";
 }
-
-/* DEDICATE SONG LOGIC */
-let dedicate=document.getElementById("dedicateSong");
 let bg=document.getElementById("bgMusic");
-
-dedicate.addEventListener("play",()=>{ bg.pause(); });
-dedicate.addEventListener("pause",()=>{ bg.play().catch(()=>{}); });
-dedicate.addEventListener("ended",()=>{ bg.play().catch(()=>{}); });
-
-/* FINAL PAGE TEXT */
-function typeText(id,text,delay){
-  let i=0,el=document.getElementById(id);
-  let inter=setInterval(()=>{
-    el.innerHTML+=text.charAt(i);
-    i++; if(i>=text.length) clearInterval(inter);
-  },delay);
+let d=document.getElementById("dedicateSong");
+if(d){
+ d.onplay=()=>bg.pause();
+ d.onpause=()=>bg.play();
+ d.onended=()=>bg.play();
 }
-function startFinalText(){
-  typeText("loveLine","I love you pondatti ❤️",80);
-  setTimeout(()=>typeText("kissLine","Umma 😘😘😘😘😘😘😘",80),2000);
-  setTimeout(()=>typeText(
-    "finalNote",
-    "Be happy always.<br>I will always be there for you 💖",60
-  ),4200);
+
+/* Final page text */
+function go(n){
+ document.querySelectorAll(".page").forEach(p=>p.classList.add("hidden"));
+ document.getElementById("page"+n).classList.remove("hidden");
+ if(n==5){
+   type("l1","I love you dii pondatti ❤️",80);
+   setTimeout(()=>type("l2","Umma 😘😘😘😘😘😘😘",80),2000);
+   setTimeout(()=>type("l3","Be happy always. I will always be there for you 💖",60),4000);
+   setTimeout(()=>document.getElementById("black").style.opacity=1,9000);
+ }
+}
+function type(id,text,spd){
+ let el=document.getElementById(id),i=0;
+ let t=setInterval(()=>{
+  el.innerHTML+=text[i++];
+  if(i>=text.length)clearInterval(t);
+ },spd);
 }
 </script>
 
