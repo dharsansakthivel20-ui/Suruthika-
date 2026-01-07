@@ -69,20 +69,18 @@ button{
 .big-heart{font-size:100px;animation:pulse 1.2s infinite}
 .glow{font-size:2em;text-shadow:0 0 20px pink}
 
-/* PAGE 3 */
+/* PAGE 3 (RECAP + PHOTOS) */
 #recapText{
   font-size:2em;
   color:#ffd6e8;
   text-shadow:0 0 25px #ff5fa2;
   animation:recapGlow 1.5s infinite alternate;
-  cursor:pointer;
   margin-bottom:20px;
 }
 @keyframes recapGlow{
   from{transform:scale(1);opacity:1}
   to{transform:scale(1.1);opacity:0.8}
 }
-
 .slider{
   width:230px;height:230px;
   overflow:hidden;border-radius:20px;
@@ -139,9 +137,7 @@ button{
 <!-- PAGE 3 -->
 <div class="page hidden" id="page3">
 
-  <div id="recapText" onclick="startRecap()">
-    ✨ Recap of 2025 ✨
-  </div>
+  <div id="recapText">✨ Recap of 2025 ✨</div>
 
   <div class="slider">
     <img id="photo" src="photo1.jpg">
@@ -196,7 +192,7 @@ button{
 <div id="black"></div>
 
 <script>
-/* HEARTS */
+/* BACKGROUND EFFECTS */
 for(let i=0;i<25;i++){
  let h=document.createElement("div");
  h.className="heart";h.innerHTML="💖";
@@ -204,8 +200,6 @@ for(let i=0;i<25;i++){
  h.style.animationDuration=(4+Math.random()*6)+"s";
  document.body.appendChild(h);
 }
-
-/* FIREWORKS */
 setInterval(()=>{
  let f=document.createElement("div");
  f.className="firework";
@@ -228,7 +222,10 @@ function go(n){
  document.querySelectorAll(".page").forEach(p=>p.classList.add("hidden"));
  document.getElementById("page"+n).classList.remove("hidden");
 
- if(n==5){
+ if(n===3){
+   startRecap(); // 👈 AUTO recap (no click)
+ }
+ if(n===5){
   type("l1","I love you dii pondatti ❤️",80);
   setTimeout(()=>type("l2","Umma 😘😘😘😘😘😘😘",80),2000);
   setTimeout(()=>type("l3","Be happy always. I will always be there for you 💖",60),4000);
@@ -236,8 +233,20 @@ function go(n){
  }
 }
 
-/* PHOTO CONTROL + RECAP */
+/* RECAP AUTO */
 let recapDone=false;
+function startRecap(){
+ let r=document.getElementById("recapText");
+ r.style.opacity=1;
+ setTimeout(()=>{ r.style.opacity=0; },2500);
+ setTimeout(()=>{
+   r.style.display="none";
+   recapDone=true;
+   showPhoto();   // first photo auto
+ },3500);
+}
+
+/* PHOTO CONTROL */
 let pics=["photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg","photo5.jpg"];
 let notes=[
   "Park ❤️ la meet pannathu",
@@ -248,33 +257,17 @@ let notes=[
 ];
 let i=0;
 
-function startRecap(){
- let r=document.getElementById("recapText");
- r.style.opacity=0;
- r.style.pointerEvents="none";
- setTimeout(()=>{
-  r.style.display="none";
-  recapDone=true;
-  showPhoto();
- },1000);
-}
-
 function showPhoto(){
  if(!recapDone) return;
-
  let img=document.getElementById("photo");
  let n=document.getElementById("note");
-
- img.style.animation="none";img.offsetHeight;
+ img.style.animation="none"; img.offsetHeight;
  img.style.animation="photoAnim 1.5s";
-
  img.src=pics[i];
  n.innerText=notes[i];
-
  document.getElementById("photoDone").style.display =
    (i===pics.length-1)?"block":"none";
 }
-
 function nextPhoto(){ if(i<pics.length-1){i++;showPhoto();} }
 function prevPhoto(){ if(i>0){i--;showPhoto();} }
 
