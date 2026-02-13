@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For You ❤️</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#f6c1cc;
+  font-family: Georgia, serif;
+  overflow:hidden;
+}
+
+/* COMMON */
+.card{
+  width:80%;
+  max-width:700px;
+  background:#f8cdd6;
+  padding:40px;
+  border-radius:25px;
+  text-align:center;
+  box-shadow:0 15px 30px rgba(0,0,0,.2);
+  position:relative;
+}
+.hidden{display:none;}
+
+img{
+  width:120px;
+  margin-bottom:15px;
+  animation:bounce 1.2s infinite;
+}
+@keyframes bounce{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-12px)}
+}
+
+p{opacity:.75;font-size:14px;margin:10px 0 25px}
+
+/* BUTTONS */
+button{
+  border:none;
+  border-radius:40px;
+  cursor:pointer;
+  padding:14px 40px;
+  font-size:18px;
+}
+.yes{background:#e63939;color:#fff}
+.no{background:#2047ff;color:#fff}
+
+/* ROWS */
+.row,.think-row{display:flex;justify-content:center;gap:20px}
+
+/* THINK AGAIN */
+.think-yes{font-size:26px;padding:20px 70px}
+.think-no{font-size:16px;padding:12px 30px}
+
+/* ARE YOU SURE */
+.sure-wrapper{position:relative;display:inline-block}
+.sure-yes{
+  font-size:34px;
+  padding:28px 100px;
+  position:relative;
+  z-index:2;
+}
+.sure-no{
+  position:absolute;
+  right:-30px;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:14px;
+  padding:8px 22px;
+  z-index:1;
+}
+
+/* SEE THIS */
+.super-big{font-size:36px;padding:30px 110px}
+
+/* GIFTS */
+.gifts{display:flex;gap:20px;justify-content:center;margin:30px 0}
+.gift{
+  background:#fbe1e7;
+  padding:20px;
+  border-radius:20px;
+  width:150px;
+  cursor:pointer;
+  position:relative;
+}
+.gift.completed{
+  opacity:.6;
+  text-decoration:line-through;
+  cursor:default;
+}
+.badge{
+  position:absolute;
+  top:-10px;
+  right:-10px;
+  background:#4caf50;
+  color:#fff;
+  padding:5px 10px;
+  border-radius:20px;
+  font-size:12px;
+}
+
+/* QUIZ */
+.option{
+  background:#fff;
+  padding:14px;
+  margin:12px 0;
+  border-radius:12px;
+  cursor:pointer;
+}
+.option.correct{
+  background:#ff6b81;
+  color:#fff;
+  box-shadow:0 0 15px #ff6b81;
+}
+.option.wrong{background:#ccc}
+.heart{
+  font-size:30px;
+  animation:glow 1s infinite;
+}
+@keyframes glow{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.3)}
+  100%{transform:scale(1)}
+}
+
+/* LETTER */
+.letter{
+  background:#f7f5d9;
+  padding:25px;
+  border-radius:15px;
+  text-align:left;
+  font-family:"Comic Sans MS", cursive;
+}
+
+/* PHOTOS */
+.photos{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:15px;
+  margin:20px 0;
+}
+.photo{
+  background:#fff;
+  padding:8px;
+  border-radius:12px;
+}
+.photo img{width:100%;border-radius:10px}
+.photo p{font-size:13px;opacity:.8;font-style:italic}
+
+/* VIDEO */
+video{
+  width:260px;
+  height:460px;
+  border-radius:18px;
+  box-shadow:0 10px 25px rgba(0,0,0,.3);
+  margin:20px 0;
+}
+
+/* FINAL VALENTINE */
+.big-text{
+  font-size:65px;
+  color:#e63939;
+  line-height:1.2;
+  animation:pop 1.2s ease-out forwards, glowText 1.5s infinite;
+}
+@keyframes pop{
+  0%{transform:scale(0);opacity:0}
+  60%{transform:scale(1.2);opacity:1}
+  100%{transform:scale(1)}
+}
+@keyframes glowText{
+  0%{text-shadow:0 0 5px #ff6b81}
+  50%{text-shadow:0 0 25px #ff6b81}
+  100%{text-shadow:0 0 5px #ff6b81}
+}
+
+/* FLOATING HEARTS */
+.floating{
+  position:fixed;
+  bottom:-40px;
+  font-size:24px;
+  animation:floatUp linear forwards;
+}
+@keyframes floatUp{
+  from{transform:translateY(0);opacity:1}
+  to{transform:translateY(-120vh);opacity:0}
+}
+</style>
+</head>
+
+<body>
+
+<!-- PAGE 1 -->
+<div class="card" id="p1">
+  <img src="toy1.gif">
+  <h1>Will you be mine 🥺?</h1>
+  <p>Life is an incredible journey, and I want to spend every second of it with you.</p>
+  <div class="row">
+    <button class="yes" onclick="show('pVal')">YES</button>
+    <button class="no" onclick="show('pThink')">NO</button>
+  </div>
+</div>
+
+<!-- THINK AGAIN -->
+<div class="card hidden" id="pThink">
+  <img src="toy2.gif">
+  <h1>Think again 😭</h1>
+  <p>Please don’t break my heart like this…</p>
+  <div class="think-row">
+    <button class="yes think-yes" onclick="show('pVal')">YES</button>
+    <button class="no think-no" onclick="show('pSure')">NO</button>
+  </div>
+</div>
+
+<!-- ARE YOU SURE -->
+<div class="card hidden" id="pSure">
+  <img src="toy3.gif">
+  <h1>Are you sure 😡?</h1>
+  <p>This is your last chance…</p>
+  <div class="sure-wrapper">
+    <button class="yes sure-yes" onclick="show('pVal')">YES</button>
+    <button class="no sure-no" onclick="show('pSee')">NO</button>
+  </div>
+</div>
+
+<!-- SEE THIS -->
+<div class="card hidden" id="pSee">
+  <img src="cat.gif">
+  <h1>See this 🫣</h1>
+  <p>Okay… now choose wisely 😏</p>
+  <button class="yes super-big" onclick="show('pVal')">YES</button>
+</div>
+
+<!-- VALENTINE -->
+<div class="card hidden" id="pVal">
+  <img src="couple.gif">
+  <h1>Happy Valentine Day Baby! 💍</h1>
+  <p>Every second with you is a celebration.</p>
+  <button class="yes" onclick="show('gifts')">See my gift ❤️</button>
+</div>
+
+<!-- GIFTS -->
+<div class="card hidden" id="gifts">
+  <h1>Something for You 🎁</h1>
+  <div class="gifts">
+    <div class="gift" id="gift1" onclick="startQuiz()">Gift 1</div>
+    <div class="gift" id="gift2" onclick="openLetter()">Gift 2</div>
+    <div class="gift" id="gift3" onclick="openPhotos()">Gift 3</div>
+  </div>
+  <button class="yes hidden" id="nextBtn" onclick="show('finalVideo')">NEXT ➜</button>
+</div>
+
+<!-- QUIZ -->
+<div class="card hidden" id="quiz">
+  <h1>Quiz for you 😘</h1>
+  <p id="question"></p>
+  <div id="options"></div>
+  <div id="heart"></div>
+</div>
+
+<!-- LETTER -->
+<div class="card hidden" id="letterPage">
+  <h1>A Letter For You 🥺</h1>
+  <div class="letter">
+    <p>My Baby,</p>
+    <p>You are my safe place, my smile, my everything.</p>
+    <p>Forever yours ❤️</p>
+  </div><br>
+  <button class="yes" onclick="completeGift2()">BACK</button>
+</div>
+
+<!-- PHOTOS -->
+<div class="card hidden" id="photosPage">
+  <h1>Look at this cutie 😭</h1>
+  <div class="photos">
+    <div class="photo"><img src="p1.jpg"><p>Caption 1</p></div>
+    <div class="photo"><img src="p2.jpg"><p>Caption 2</p></div>
+    <div class="photo"><img src="p3.jpg"><p>Caption 3</p></div>
+    <div class="photo"><img src="p4.jpg"><p>Caption 4</p></div>
+  </div>
+  <button class="yes" onclick="completeGift3()">BACK</button>
+</div>
+
+<!-- FINAL VIDEO -->
+<div class="card hidden" id="finalVideo">
+  <h1>You are my forever 🧿❤️</h1>
+  <video autoplay loop controls>
+    <source src="video.mp4" type="video/mp4">
+  </video>
+  <p>My heart will always choose you ❤️</p>
+  <button class="yes" onclick="showFinal()">❤️</button>
+</div>
+
+<!-- HAPPY VALENTINE -->
+<div class="card hidden" id="valentineFinal">
+  <h1 class="big-text">HAPPY<br>VALENTINE’S<br>DAY 💖</h1>
+</div>
+
+<script>
+let qIndex=0;
+let gift1=false,gift2=false,gift3=false;
+
+const quiz=[
+ {q:"Who is the absolute 'Boss' in this relationship? 😌",a:["Obviously You","Me","My Mom"],c:0},
+ {q:"What fights a lot in this relationship? 🤭",a:["Always You","No One","Me"],c:0},
+ {q:"Where do I plan to spend the rest of my life? 🥺",a:["Paris","In Your Heart","On Mars"],c:1}
+];
+
+function show(id){
+ document.querySelectorAll('.card').forEach(c=>c.classList.add('hidden'));
+ document.getElementById(id).classList.remove('hidden');
+}
+
+/* QUIZ */
+function startQuiz(){
+ if(gift1) return;
+ qIndex=0; show('quiz'); loadQ();
+}
+function loadQ(){
+ heart.innerHTML="";
+ question.innerText=quiz[qIndex].q;
+ options.innerHTML="";
+ quiz[qIndex].a.forEach((t,i)=>{
+  let d=document.createElement("div");
+  d.className="option";
+  d.innerText=t;
+  d.onclick=()=>check(i,d);
+  options.appendChild(d);
+ });
+}
+function check(i,el){
+ if(i===quiz[qIndex].c){
+  el.classList.add("correct");
+  heart.innerHTML="❤️";
+  heart.className="heart";
+  setTimeout(()=>{
+   qIndex++;
+   qIndex<quiz.length ? loadQ() : completeGift1();
+  },900);
+ }else{
+  el.classList.add("wrong");
+  alert("Wrong answer 😜 Try again");
+ }
+}
+function completeGift1(){gift1=true;markGift("gift1")}
+
+/* GIFT 2 */
+function openLetter(){if(!gift2)show("letterPage")}
+function completeGift2(){gift2=true;markGift("gift2")}
+
+/* GIFT 3 */
+function openPhotos(){if(!gift3)show("photosPage")}
+function completeGift3(){gift3=true;markGift("gift3");document.getElementById("nextBtn").classList.remove("hidden")}
+
+function markGift(id){
+ const g=document.getElementById(id);
+ g.classList.add("completed");
+ const b=document.createElement("div");
+ b.className="badge";
+ b.innerText="Completed ✅";
+ g.appendChild(b);
+ show("gifts");
+}
+
+/* FINAL */
+function showFinal(){
+ show("valentineFinal");
+ setInterval(()=>{
+  const h=document.createElement("div");
+  h.className="floating";
+  h.innerText=["❤️","💖","💕","💘","💗"][Math.floor(Math.random()*5)];
+  h.style.left=Math.random()*100+"vw";
+  h.style.animationDuration=(3+Math.random()*3)+"s";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
+ },300);
+}
+</script>
+
+</body>
+</html>
